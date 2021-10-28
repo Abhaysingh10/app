@@ -321,7 +321,7 @@ class _BookingCarouselState extends State<BookingCarousel> {
                       ),
                     )),
                     FlatButton(
-                      // child: Text('PREV'),
+                      child: Text('PREV'),
                       onPressed: () {
                         setState(() {
                           _targetDateTime = DateTime(
@@ -332,7 +332,7 @@ class _BookingCarouselState extends State<BookingCarousel> {
                       },
                     ),
                     FlatButton(
-                      // child: Text('NEXT'),
+                      child: Text('NEXT'),
                       onPressed: () {
                         setState(() {
                           _targetDateTime = DateTime(
