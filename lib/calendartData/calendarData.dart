@@ -24,18 +24,22 @@ class CalendarData {
   }
 
   Future<List<DateTime>> getUser() {
+    var dateTimeList = new List();
+
     getCalendarData().then((value) {
       if (value.name.isNotEmpty) {
-        //  print(value.name);
-        //  print(value.scheduleDetails.length);
+        print("This is from flutter.");
+        print(value.name);
+
+        print(value.scheduleDetails.length);
         for (int i = 0; i < value.scheduleDetails.length; i++) {
-          //dateTimeList.add(value.scheduleDetails[i].date);
-          // print(value.scheduleDetails[i].date);
-          // print(value.scheduleDetails[i].startTime);
-          // print(value.scheduleDetails[i].endTime);
-          //   dateTimeList.add(value.scheduleDetails[i].date);
+          dateTimeList.add(value.scheduleDetails[i].date);
+          print(value.scheduleDetails[i].date);
+          print(value.scheduleDetails[i].startTime);
+          print(value.scheduleDetails[i].endTime);
+          dateTimeList.add(value.scheduleDetails[i].date);
         }
-        //  return dateTimeList;
+        return dateTimeList;
       }
     });
   }

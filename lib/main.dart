@@ -51,7 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(
           context, MaterialPageRoute(builder: (c) => BottomNavigator()));
     } else {
-      Navigator.push(context, MaterialPageRoute(builder: (c) => login()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (c) => BottomNavigator()));
     }
   }
 
@@ -68,7 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
         home: AnimatedSplashScreen(
           // splash: Icons.ac_unit,
           splash: Image.asset("images/logo.png"),
-          nextScreen: login(),
+          //nextScreen: login(),
+          nextScreen: BottomNavigator(),
           splashTransition: SplashTransition.scaleTransition,
         )
         // This trailing comma makes auto-formatting nicer for build methods.

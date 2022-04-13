@@ -23,7 +23,7 @@ class _BookingState extends State<Booking> {
   _handleDate(date) {
     setState(() {
       _selectedDate = date;
-      print(_selectedDate);
+      //print(_selectedDate);
     });
   }
 
@@ -46,7 +46,7 @@ class _BookingState extends State<Booking> {
               view: CalendarView.week,
               onTap: (CalendarTapDetails calendarTapDetails) {
                 DateTime date = calendarTapDetails.date;
-                print(date);
+                //   print(date);
               },
               controller: _calendarController,
               onSelectionChanged: _handleDate(DateTime.now()),

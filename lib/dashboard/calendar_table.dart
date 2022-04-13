@@ -35,10 +35,10 @@ class _BookingTwoState extends State<BookingTwo> {
 
   void _handleData(date) {
     setState(() {
-      selectedDay = date;
+      // selectedDay = date;
       selectedEvent = events[selectedDay] ?? [];
     });
-    print(selectedDay);
+    //print(selectedDay);
   }
 
   MaterialButton button(String value) => MaterialButton(

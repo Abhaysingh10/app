@@ -228,7 +228,11 @@ class _loginState extends State<login> {
                       width: 150.0,
                       child: RaisedButton(
                         onPressed: () {
-                          _login();
+                          //_login();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (c) => BottomNavigator()));
                         },
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50.0)),

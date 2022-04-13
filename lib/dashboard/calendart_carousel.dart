@@ -1,14 +1,10 @@
-import 'dart:math';
-
 import 'package:flutter_application_interpreter/calendartData/calendarData.dart';
 import 'package:flutter_application_interpreter/userModel/UserInfo.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:animations/animations.dart';
-import 'package:flutter/services.dart';
 
 class BookingCarousel extends StatefulWidget {
   @override
@@ -30,6 +26,11 @@ class _BookingCarouselState extends State<BookingCarousel> {
   double _height = 0, _width = 0;
   bool up = false;
   final transitionType = ContainerTransitionType.fade;
+  TextEditingController _descriptionController;
+  String valueText;
+  TimeOfDay startTime;
+  TimeOfDay endTime;
+
 //  List<DateTime> _markedDate = [DateTime(2018, 9, 20), DateTime(2018, 10, 11)];
 
   static Widget _eventIcon = new Container(
@@ -45,10 +46,10 @@ class _BookingCarouselState extends State<BookingCarousel> {
 
   EventList<Event> _markedDateMap = new EventList<Event>(
     events: {
-      new DateTime(2021, 5, 03): [
+      new DateTime(2022, 4, 03): [
         new Event(
-          date: new DateTime(2021, 5, 30),
-          title: 'Event 1',
+          date: new DateTime(2022, 4, 03),
+          title: 'This is event 1',
           icon: _eventIcon,
           dot: Container(
             margin: EdgeInsets.symmetric(horizontal: 1.0),
@@ -58,9 +59,81 @@ class _BookingCarouselState extends State<BookingCarousel> {
           ),
         ),
         new Event(
-          date: new DateTime(2021, 4, 10),
-          title: 'Event 2',
+          date: new DateTime(2022, 4, 03),
+          title: 'This is event 2',
           icon: _eventIcon,
+          dot: Container(
+            margin: EdgeInsets.symmetric(horizontal: 1.0),
+            color: Colors.yellow,
+            height: 5.0,
+            width: 5.0,
+          ),
+        ),
+        new Event(
+          date: new DateTime(2022, 4, 03),
+          title: 'This is event 3',
+          icon: _eventIcon,
+          dot: Container(
+            margin: EdgeInsets.symmetric(horizontal: 1.0),
+            color: Colors.yellow,
+            height: 5.0,
+            width: 5.0,
+          ),
+        ),
+        new Event(
+          date: new DateTime(2022, 4, 03),
+          title: 'This is event 4',
+          icon: _eventIcon,
+          dot: Container(
+            margin: EdgeInsets.symmetric(horizontal: 1.0),
+            color: Colors.yellow,
+            height: 5.0,
+            width: 5.0,
+          ),
+        ),
+        new Event(
+          date: new DateTime(2022, 4, 03),
+          title: 'This is event 5',
+          icon: _eventIcon,
+          dot: Container(
+            margin: EdgeInsets.symmetric(horizontal: 1.0),
+            color: Colors.yellow,
+            height: 5.0,
+            width: 5.0,
+          ),
+        ),
+        new Event(
+          date: new DateTime(2022, 4, 03),
+          title: 'This is event 6',
+          icon: _eventIcon,
+          dot: Container(
+            margin: EdgeInsets.symmetric(horizontal: 1.0),
+            color: Colors.yellow,
+            height: 5.0,
+            width: 5.0,
+          ),
+        ),
+        new Event(
+          date: new DateTime(2022, 4, 03),
+          title: 'This is event 7',
+          icon: _eventIcon,
+          dot: Container(
+            margin: EdgeInsets.symmetric(horizontal: 1.0),
+            color: Colors.yellow,
+            height: 5.0,
+            width: 5.0,
+          ),
+        ),
+        new Event(
+          date: new DateTime(2022, 4, 03),
+          title: 'This is event 8',
+          icon: _eventIcon,
+          dot: Container(
+            margin: EdgeInsets.symmetric(horizontal: 1.0),
+            color: Colors.yellow,
+            height: 5.0,
+            width: 5.0,
+          ),
         ),
       ],
     },
@@ -93,10 +166,9 @@ class _BookingCarouselState extends State<BookingCarousel> {
       print(dateTimeList);
 
       for (var i = 0; i < dateTimeList.length; i++) {
-        await setState(() {
-          _markedDateMap.addAll(dateTimeList[i], [
-            new Event(title: "$i", date: dateTimeList[i], icon: _eventIcon)
-          ]);
+        setState(() {
+          _markedDateMap.add(dateTimeList[i],
+              new Event(title: "$i", date: dateTimeList[i], icon: _eventIcon));
         });
       }
     });
@@ -119,18 +191,21 @@ class _BookingCarouselState extends State<BookingCarousel> {
       _width = MediaQuery.of(context).size.width / 1.2;
     });
     //  print(schedulingTable.length);
+    print("This is datelist $dateTimeList");
     String startTime, endTime, description;
-    for (var i = 0; i < schedulingTable.length; i++) {
-      if (date == schedulingTable[i][0]) {
-        startTime = schedulingTable[i][1];
-        endTime = schedulingTable[i][2];
-        description = schedulingTable[i][3];
-      }
-    }
+    _markedDateMap.getEvents(date).forEach((element) {
+      print(element.title);
+    });
 
-    print(startTime);
-    print(endTime);
-    print(description);
+    // for (var i = 0; i < schedulingTable.length; i++) {
+    //   if (date == schedulingTable[i][0]) {
+    //     startTime = schedulingTable[i][1];
+    //     endTime = schedulingTable[i][2];
+    //     description = schedulingTable[i][3];
+    //   }
+    // }
+
+    events() async {}
 
     showDialog(
         context: context,
@@ -211,8 +286,216 @@ class _BookingCarouselState extends State<BookingCarousel> {
         });
   }
 
-  //MediaQuery.of(context).size.height * .5
-  //MediaQuery.of(context).size.width * .4
+  void viewEvent(BuildContext context, DateTime date) {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return Center(
+              child: Expanded(
+                  child: Container(
+                      height: MediaQuery.of(context).size.height * .7,
+                      width: MediaQuery.of(context).size.width * .8,
+                      // width: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12.0),
+                            topRight: Radius.circular(12.0),
+                            bottomLeft: Radius.circular(12.0),
+                            bottomRight: Radius.circular(12.0),
+                          )),
+                      child: ListView(children: getEventDetails(date)))));
+        });
+  }
+
+  List _listing = new List();
+  List<Widget> getEventDetails(DateTime date) {
+    List listing = List<Widget>();
+    _markedDateMap.getEvents(date).forEach((element) {
+      listing.add(Container(
+        color: Colors.red,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * .15,
+              width: MediaQuery.of(context).size.width * .7,
+              margin: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(3.0),
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(255, 146, 140, 139),
+                      blurRadius: 25.0, // soften the shadow
+                      spreadRadius: 0.0, //extend the shadow
+                      offset: Offset(
+                        15.0,
+                        15.0,
+                      ),
+                    )
+                  ],
+                  color: Colors.white,
+                  border: Border.all(color: Color.fromARGB(0, 0, 0, 0)),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5.0),
+                    topRight: Radius.circular(5.0),
+                    bottomLeft: Radius.circular(5.0),
+                    bottomRight: Radius.circular(5.0),
+                  )),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+                child: Text(
+                  element.title,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Caviar',
+                      color: Colors.blue[600]),
+                ),
+              ),
+            ),
+            Text(element.date.toString())
+          ],
+        ),
+      ));
+    });
+
+    return listing;
+  }
+
+  _selectTime() async {
+    TimeOfDay selectedTime = new TimeOfDay.now();
+
+    final TimeOfDay newTime =
+        await showTimePicker(context: context, initialTime: selectedTime);
+    if (newTime != null) {
+      setState(() {
+        selectedTime = newTime;
+      });
+    }
+  }
+
+  askForEvent(DateTime date, List<Event> events) async {
+    showDialog(
+        context: context,
+        builder: (_) => Center(
+              child: Container(
+                height: MediaQuery.of(context).size.height * .3,
+                width: MediaQuery.of(context).size.width * .8,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12.0),
+                      topRight: Radius.circular(12.0),
+                      bottomLeft: Radius.circular(12.0),
+                      bottomRight: Radius.circular(12.0),
+                    )),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                        child: Row(
+                          children: [
+                            SizedBox(width: 20),
+                            Text("Add new event"),
+                            SizedBox(width: 10),
+                            GestureDetector(
+                                child: Image.network(
+                                    "https://img.icons8.com/ultraviolet/40/000000/plus-2-math.png"),
+                                onTap: () => {creatEvent(date)})
+                          ],
+                        ),
+                        height: MediaQuery.of(context).size.height * .1,
+                        // width: MediaQuery.of(context).size.width * .1,
+                        color: Color.fromARGB(0, 255, 82, 82)),
+                    Container(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            GestureDetector(
+                              child: Text("View event"),
+                              onTap: () {
+                                viewEvent(context, date);
+
+                                // this.setState(() => _currentDate2 = date);
+                                // events.forEach((event) {
+                                //   viewEvent(context, date);
+                                // });
+                              },
+                            ),
+                          ],
+                        ),
+                        height: MediaQuery.of(context).size.height * .1,
+                        // width: MediaQuery.of(context).size.width * .1,
+                        color: Color.fromARGB(0, 121, 85, 72))
+                  ],
+                ),
+              ),
+            ));
+  }
+
+  creatEvent(DateTime date) async {
+    startTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+        initialEntryMode: TimePickerEntryMode.input,
+        helpText: "Start Time");
+
+    endTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+        initialEntryMode: TimePickerEntryMode.input,
+        helpText: "End Time");
+
+    print(_descriptionController);
+
+    await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: Text("Description"),
+              content: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    valueText = value;
+                  });
+                },
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'OK'),
+                  child: const Text('OK'),
+                ),
+              ],
+            ));
+
+    print("Start date $startTime");
+    print("End date $endTime");
+
+    final localizations = MaterialLocalizations.of(context);
+    final formattedTimeOfDay = localizations.formatTimeOfDay(startTime);
+    print("After formatting the information $formattedTimeOfDay");
+    print("valutText $valueText");
+
+    _markedDateMap.add(
+        date,
+        new Event(
+          date: date,
+          title: valueText,
+          dot: Container(
+            margin: EdgeInsets.symmetric(horizontal: 1.0),
+            color: Colors.yellow,
+            height: 5.0,
+            width: 5.0,
+          ),
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,15 +503,21 @@ class _BookingCarouselState extends State<BookingCarousel> {
       todayBorderColor: Colors.blueGrey[800],
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      onDayPressed: (date, events) {
-        this.setState(() => _currentDate2 = date);
-        events.forEach((event) {
-          //    widgetVisibility = true;
+      // onDayPressed: (date, events) {
+      //   this.setState(() => _currentDate2 = date);
+      //   events.forEach((event) {
+      //     //    widgetVisibility = true;
 
-          popCard(context, date);
-          ;
-        });
+      //     popCard(context, date);
+      //     ;
+      //   });
+      // },
+
+      onDayPressed: (date, event) async {
+        //  print("This is date after onDayPressedn $date");
+        askForEvent(date, event);
       },
+
       //daysHaveCircularBorder: false,
       showOnlyCurrentMonthDate: true,
       weekendTextStyle:
